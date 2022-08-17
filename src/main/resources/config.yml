@@ -6,3 +6,4 @@ DATABASE:
   USERNAME: "u15_BgW6sTcHBH"
   PASSWORD: "ksqu@heB6gUDV3sQ^^cgfqlp"
 PLAYER_NOT_FOUND: "&cThe player you specified could not be found."
+NO_PERMISSION: "&cYou dont have permission to perform this command."
