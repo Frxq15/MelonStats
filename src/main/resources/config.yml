@@ -1,0 +1,8 @@
+DATABASE:
+  TABLE: "melonstats"
+  HOST: "178.33.74.13"
+  PORT: 3306
+  DATABASE: "s15_melonstats"
+  USERNAME: "u15_BgW6sTcHBH"
+  PASSWORD: "ksqu@heB6gUDV3sQ^^cgfqlp"
+PLAYER_NOT_FOUND: "&cThe player you specified could not be found."

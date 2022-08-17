@@ -1,0 +1,6 @@
+name: MelonStats
+version: '${project.version}'
+main: org.melonmc.melonstats.MelonStats
+api-version: 1.19
+authors: [ Frxq15 ]
+description: MelonMC Stats Plugin
