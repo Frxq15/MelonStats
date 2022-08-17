@@ -5,6 +5,8 @@ import org.bukkit.entity.Player;
 import org.melonmc.melonstats.MelonStats;
 import org.melonmc.melonstats.sql.PlayerData;
 
+import java.text.DecimalFormat;
+
 public class Placeholders extends PlaceholderExpansion {
     private MelonStats plugin;
 
@@ -46,7 +48,8 @@ public class Placeholders extends PlaceholderExpansion {
                 return String.valueOf(playerData.getDeaths());
 
             case "kdr":
-                return String.valueOf(playerData.getKDR());
+                DecimalFormat df = new DecimalFormat("#.##");
+                return df.format(playerData.getKDR())+"";
 
             case "streak":
                 return String.valueOf(playerData.getStreak());

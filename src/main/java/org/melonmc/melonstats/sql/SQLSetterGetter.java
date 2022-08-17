@@ -68,7 +68,6 @@ public class SQLSetterGetter {
     }
 
     public void createTable(String table) {
-        plugin.log("ATTEMPTING TO CREATE MYSQL TABLE");
         Bukkit.getScheduler().runTaskAsynchronously(plugin.getInstance(), () -> {
             try {
                 PreparedStatement statement = plugin.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `" + table + "` (uuid VARCHAR(36) PRIMARY KEY, player VARCHAR(16), kills INT(11), deaths VARCHAR(36), streak INT(11), highest_streak INT(11));");

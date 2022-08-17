@@ -5,6 +5,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.melonmc.melonstats.MelonStats;
 import org.melonmc.melonstats.sql.PlayerData;
@@ -21,8 +22,10 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void giveMoney(PlayerDeathEvent e) {
+        if(e.getEntity().getLastDamageCause().getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+            return;
+        }
         Player p = e.getEntity().getKiller();
-        PlayerData playerData = PlayerData.getPlayerData(plugin, p.getUniqueId());
         if (e.getEntityType() != EntityType.PLAYER) {
             return;
         }

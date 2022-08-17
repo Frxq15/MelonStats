@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -45,6 +46,13 @@ public class SQLListeners implements Listener {
     }
     @EventHandler
     public void addKill(PlayerDeathEvent e) {
+        if(e.getEntity().getLastDamageCause().getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+            Player p2 = e.getEntity();
+            PlayerData playerData1 = PlayerData.getPlayerData(plugin, p2.getUniqueId());
+            playerData1.addDeath();
+            playerData1.setStreak(0);
+            return;
+        }
         Player p = e.getEntity().getKiller();
         PlayerData playerData = PlayerData.getPlayerData(plugin, p.getUniqueId());
         if(e.getEntityType() != EntityType.PLAYER) {
