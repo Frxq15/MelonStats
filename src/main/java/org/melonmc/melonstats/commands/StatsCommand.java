@@ -20,6 +20,7 @@ public class StatsCommand implements CommandExecutor {
             return true;
         }
         if(args.length == 0) {
+            //insert stats stringlist here
             return true;
         }
         if(args.length == 1) {
