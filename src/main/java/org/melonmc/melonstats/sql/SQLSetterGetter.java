@@ -68,6 +68,7 @@ public class SQLSetterGetter {
     }
 
     public void createTable(String table) {
+        plugin.log("ATTEMPTING TO CREATE MYSQL TABLE");
         Bukkit.getScheduler().runTaskAsynchronously(plugin.getInstance(), () -> {
             try {
                 PreparedStatement statement = plugin.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `" + table + "` (uuid VARCHAR(36) PRIMARY KEY, player VARCHAR(16), kills INT(11), deaths VARCHAR(36), streak INT(11), highest_streak INT(11));");
@@ -98,7 +99,7 @@ public class SQLSetterGetter {
     }
     public void setKills(UUID uuid, int kills) {
         if(!playerExists(uuid)) {
-            plugin.log("An error whilst setting streak for uuid "+uuid+", please contact the developer about this error.");
+            plugin.log("An error whilst setting kills for uuid "+uuid+", please contact the developer about this error.");
             return;
         }
         try {
@@ -112,7 +113,7 @@ public class SQLSetterGetter {
     }
     public void setDeaths(UUID uuid, int deaths) {
         if(!playerExists(uuid)) {
-            plugin.log("An error whilst setting streak for uuid "+uuid+", please contact the developer about this error.");
+            plugin.log("An error whilst setting deaths for uuid "+uuid+", please contact the developer about this error.");
             return;
         }
         try {
@@ -126,7 +127,7 @@ public class SQLSetterGetter {
     }
     public void setHighestStreak(UUID uuid, int streak) {
         if(!playerExists(uuid)) {
-            plugin.log("An error whilst setting streak for uuid "+uuid+", please contact the developer about this error.");
+            plugin.log("An error whilst setting highest streak for uuid "+uuid+", please contact the developer about this error.");
             return;
         }
         try {

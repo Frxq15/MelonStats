@@ -15,7 +15,6 @@ public class PlayerData {
     private int highest_streak = 0;
     private int deaths = 0;
     private int kills = 0;
-    private double kdr = 0;
 
     public PlayerData(UUID uuid) {
         this.uuid = uuid;
@@ -26,27 +25,22 @@ public class PlayerData {
     public int getDeaths() { return deaths; }
     public int getStreak() { return streak; }
     public int getHighestStreak() { return highest_streak; }
-    public double getKDR() { return kdr; }
+    public double getKDR() { return (double)kills/(double)deaths; }
 
     public void setKills(int kills) {
         this.kills = kills;
-        updateKDR();
     }
     public void setDeaths(int deaths) {
         this.deaths = deaths;
-        updateKDR();
     }
     public void setStreak(int streak) { this.streak = streak; }
-    public void setHighestStreak(int streak) { this.highest_streak = highest_streak; }
-    public void updateKDR() { this.kdr = (getKills()/getDeaths()); }
+    public void setHighestStreak(int streak) { this.highest_streak = streak; }
 
     public void addKill() {
         setKills((getKills()+1));
-        updateKDR();
      }
     public void addDeath() {
         setDeaths((getDeaths()+1));
-        updateKDR();
     }
     public void addToStreak() {
         setStreak((getStreak()+1));
@@ -61,7 +55,6 @@ public class PlayerData {
             playerData.setDeaths(plugin.getSQLManager().getDeaths(uuid));
             playerData.setStreak(plugin.getSQLManager().getStreak(uuid));
             playerData.setHighestStreak(plugin.getSQLManager().getHighestStreak(uuid));
-            playerData.updateKDR();
         }
         return players.get(uuid);
     }

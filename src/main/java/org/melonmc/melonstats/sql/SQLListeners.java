@@ -21,22 +21,20 @@ public class SQLListeners implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onAsyncPlayerPreLoginEvent(AsyncPlayerPreLoginEvent event) {
         UUID uuid = event.getUniqueId();
         String name = event.getName();
-
         plugin.getSQLManager().createPlayer(uuid, name);
-
         PlayerData playerData = PlayerData.getPlayerData(plugin, uuid);
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerLoginEvent(PlayerLoginEvent event) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> plugin.getSQLManager().updatePlayerName(event.getPlayer()));
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
                 UUID uuid = event.getPlayer().getUniqueId();
@@ -52,17 +50,17 @@ public class SQLListeners implements Listener {
         if(e.getEntityType() != EntityType.PLAYER) {
             return;
         }
-        int current = playerData.getStreak();
         playerData.addToStreak();
         playerData.addKill();
 
-        if(current >= playerData.getHighestStreak()) {
-            playerData.setHighestStreak(current);
+        if(playerData.getStreak() >= playerData.getHighestStreak()) {
+            playerData.setHighestStreak(playerData.getStreak());
         }
 
         Player p2 = e.getEntity();
         PlayerData playerData1 = PlayerData.getPlayerData(plugin, p2.getUniqueId());
         playerData1.addDeath();
+        playerData1.setStreak(0);
 
     }
 }

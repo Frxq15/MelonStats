@@ -5,5 +5,22 @@ DATABASE:
   DATABASE: "s15_melonstats"
   USERNAME: "u15_BgW6sTcHBH"
   PASSWORD: "ksqu@heB6gUDV3sQ^^cgfqlp"
+
+#VAULT ECO//: given upon killing another player
+MIN_KILL_REWARD: 10
+MAX_KILL_REWARD: 25
+
 PLAYER_NOT_FOUND: "&cThe player you specified could not be found."
 NO_PERMISSION: "&cYou dont have permission to perform this command."
+STATS_MESSAGE:
+  - "&7&m----------------------"
+  - "&fShowing stats for &a%player%&f:"
+  - "&7Kills: &a%kills%"
+  - "&7Deaths: &a%deaths%"
+  - "&7KDR: &a%kdr%"
+  - ""
+  - "&7Current KS: &a%currentks%"
+  - "&7Highest KS: &a%highestks%"
+  - "&7&m----------------------"
+RECEIVED_MONEY: "&7[&aMelonMC&7] &7You received &a$%amount% &7for killing &a%player%&7."
+DEATH_MESSAGE: "&7[&aMelonMC&7] &a%player% &7was killed by &a%killer%&7."

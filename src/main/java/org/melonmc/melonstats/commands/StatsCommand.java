@@ -1,10 +1,14 @@
 package org.melonmc.melonstats.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.melonmc.melonstats.MelonStats;
+import org.melonmc.melonstats.sql.PlayerData;
+
+import java.text.DecimalFormat;
 
 public class StatsCommand implements CommandExecutor {
     private final MelonStats plugin = MelonStats.getInstance();
@@ -20,7 +24,14 @@ public class StatsCommand implements CommandExecutor {
             return true;
         }
         if(args.length == 0) {
-            //insert stats stringlist here
+            DecimalFormat df = new DecimalFormat("#.##");
+            PlayerData playerData = PlayerData.getPlayerData(plugin, p.getUniqueId());
+            MelonStats.getInstance().getConfig().getStringList("STATS_MESSAGE").forEach(line -> {
+                line = line.replace("%player%", p.getName()).replace("%kills%", playerData.getKills()+"")
+                        .replace("%deaths%", playerData.getDeaths()+"").replace("%currentks%", playerData.getStreak()+"")
+                        .replace("%kdr%", df.format(playerData.getKDR())+"").replace("%highestks%", playerData.getHighestStreak()+"");
+                p.sendMessage(MelonStats.colourize(line));
+            });
             return true;
         }
         if(args.length == 1) {
@@ -28,6 +39,19 @@ public class StatsCommand implements CommandExecutor {
                 p.sendMessage(MelonStats.formatMsg("NO_PERMISSION"));
                 return true;
             }
+            String target = args[0];
+            if(Bukkit.getPlayer(target) == null) {
+                p.sendMessage(MelonStats.formatMsg("PLAYER_NOT_FOUND"));
+                return true;
+            }
+            DecimalFormat df = new DecimalFormat("#.##");
+            PlayerData playerData = PlayerData.getPlayerData(plugin, Bukkit.getPlayer(target).getUniqueId());
+            MelonStats.getInstance().getConfig().getStringList("STATS_MESSAGE").forEach(line -> {
+                line = line.replace("%player%", Bukkit.getPlayer(target).getName()).replace("%kills%", playerData.getKills()+"")
+                        .replace("%deaths%", playerData.getDeaths()+"").replace("%currentks%", playerData.getStreak()+"")
+                        .replace("%kdr%", df.format(playerData.getKDR())+"").replace("%highestks%", playerData.getHighestStreak()+"");
+                p.sendMessage(MelonStats.colourize(line));
+            });
             return true;
         }
         p.sendMessage(MelonStats.colourize("&cUsage: /stats <player>"));

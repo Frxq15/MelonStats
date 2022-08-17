@@ -4,3 +4,8 @@ main: org.melonmc.melonstats.MelonStats
 api-version: 1.19
 authors: [ Frxq15 ]
 description: MelonMC Stats Plugin
+
+commands:
+  stats:
+    usage: /stats <player>
+    aliases: [s, playerstats]
