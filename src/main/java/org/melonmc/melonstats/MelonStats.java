@@ -3,6 +3,7 @@ package org.melonmc.melonstats;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.melonmc.melonstats.sql.PlayerData;
 import org.melonmc.melonstats.sql.SQLListeners;
 import org.melonmc.melonstats.sql.SQLSetterGetter;
 
@@ -25,6 +26,7 @@ public final class MelonStats extends JavaPlugin {
         saveDefaultConfig();
         SQLSetup();
         getSQLManager().createTable(table);
+        startSavingTask();
         // Plugin startup logic
 
     }
@@ -76,5 +78,11 @@ public final class MelonStats extends JavaPlugin {
     }
     public static String colourize(String input) {
         return ChatColor.translateAlternateColorCodes('&', input);
+    }
+    public void startSavingTask() {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> PlayerData.getAllPlayerData().forEach((uuid, playerData) -> getSQLManager().setKills(uuid, playerData.getKills())), 20L * 60L * 5L, 20L * 60L * 5L);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> PlayerData.getAllPlayerData().forEach((uuid, playerData) -> getSQLManager().setDeaths(uuid, playerData.getDeaths())), 20L * 60L * 5L, 20L * 60L * 5L);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> PlayerData.getAllPlayerData().forEach((uuid, playerData) -> getSQLManager().setStreak(uuid, playerData.getStreak())), 20L * 60L * 5L, 20L * 60L * 5L);
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> PlayerData.getAllPlayerData().forEach((uuid, playerData) -> getSQLManager().setHighestStreak(uuid, playerData.getHighestStreak())), 20L * 60L * 5L, 20L * 60L * 5L);
     }
 }
