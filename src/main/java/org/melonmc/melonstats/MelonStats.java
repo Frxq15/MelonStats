@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.melonmc.melonstats.api.PlaceholderAPI;
 import org.melonmc.melonstats.api.VaultAPI;
 import org.melonmc.melonstats.commands.StatsCommand;
 import org.melonmc.melonstats.misc.Listeners;
@@ -22,12 +23,14 @@ public final class MelonStats extends JavaPlugin {
     public int port;
     public SQLSetterGetter sqlSetterGetter;
     public VaultAPI vaultAPI;
+    public PlaceholderAPI placeholderAPI;
 
     @Override
     public void onEnable() {
         instance = this;
         sqlSetterGetter = new SQLSetterGetter();
         vaultAPI = new VaultAPI();
+        placeholderAPI = new PlaceholderAPI();
         Bukkit.getPluginManager().registerEvents(new SQLListeners(this), this);
         Bukkit.getPluginManager().registerEvents(new Listeners(this), this);
         saveDefaultConfig();
@@ -35,6 +38,7 @@ public final class MelonStats extends JavaPlugin {
         getSQLManager().createTable(table);
         startSavingTask();
         getVaultAPI().runSetup();
+        getPlaceholderAPI().setupPapi();
         getCommand("stats").setExecutor(new StatsCommand());
         // Plugin startup logic
 
@@ -47,6 +51,7 @@ public final class MelonStats extends JavaPlugin {
     public static MelonStats getInstance() { return instance; }
 
     public VaultAPI getVaultAPI() { return vaultAPI; }
+    public PlaceholderAPI getPlaceholderAPI() { return placeholderAPI; }
 
     public SQLSetterGetter getSQLManager() { return sqlSetterGetter; }
 
