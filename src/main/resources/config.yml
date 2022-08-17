@@ -24,3 +24,4 @@ STATS_MESSAGE:
   - "&7&m----------------------"
 RECEIVED_MONEY: "&7[&aMelonMC&7] &7You received &a$%amount% &7for killing &a%player%&7."
 DEATH_MESSAGE: "&7[&aMelonMC&7] &a%player% &7was killed by &a%killer%&7."
+DEATH_MESSAGE_2: "&7[&aMelonMC&7] &a%player% &7died."
