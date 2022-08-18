@@ -7,6 +7,8 @@ import org.melonmc.melonstats.MelonStats;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class SQLSetterGetter {
@@ -207,6 +209,21 @@ public class SQLSetterGetter {
         return 0;
     }
 
+    public Map<String, Integer> getTopKills() {
+        try {
+            PreparedStatement statement = plugin.getConnection().prepareStatement
+                    ("SELECT player, kills FROM " + plugin.table + " GROUP BY player ORDER BY `KILLS` DESC LIMIT 10");
+            ResultSet results = statement.executeQuery();
+            Map<String, Integer> players = new HashMap<>();
+            while (results != null && results.next()) {
+                players.put(results.getString("player"), results.getInt("kills"));
+            }
+            return players;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public void deleteTable() {
         try {

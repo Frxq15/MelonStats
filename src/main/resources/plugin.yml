@@ -9,3 +9,5 @@ commands:
   stats:
     usage: /stats <player>
     aliases: [s, playerstats]
+  test:
+    usage: /test

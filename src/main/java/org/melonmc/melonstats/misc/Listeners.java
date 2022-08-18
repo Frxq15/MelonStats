@@ -50,10 +50,13 @@ public class Listeners implements Listener {
         Bukkit.broadcastMessage(MelonStats.formatMsg("DEATH_MESSAGE").replace("%player%", e.getEntity().getName()).replace("%killer%", p.getName()));
     }
     @EventHandler
-    public void onDeath(EntityDeathEvent e) {
-        if(e.getEntityType() != EntityType.PLAYER) {
-            return;
+    public void deathMessag2e(PlayerDeathEvent e) {
+        if(!(e.getEntity().getKiller() instanceof Player)) {
+            if (e.getEntityType() == EntityType.PLAYER) {
+                Player p = e.getEntity().getKiller();
+                Bukkit.broadcastMessage(MelonStats.formatMsg("DEATH_MESSAGE")
+                        .replace("%player%", e.getEntity().getName()).replace("%killer%", p.getName()));
+            }
         }
-        Bukkit.broadcastMessage(MelonStats.formatMsg("DEATH_MESSAGE_2").replace("%player%", e.getEntity().getName()));
     }
 }

@@ -7,6 +7,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.melonmc.melonstats.api.PlaceholderAPI;
 import org.melonmc.melonstats.api.VaultAPI;
 import org.melonmc.melonstats.commands.StatsCommand;
+import org.melonmc.melonstats.commands.testCommand;
+import org.melonmc.melonstats.leaderboard.CachedProfiles;
 import org.melonmc.melonstats.misc.Listeners;
 import org.melonmc.melonstats.sql.PlayerData;
 import org.melonmc.melonstats.sql.SQLListeners;
@@ -24,6 +26,7 @@ public final class MelonStats extends JavaPlugin {
     public SQLSetterGetter sqlSetterGetter;
     public VaultAPI vaultAPI;
     public PlaceholderAPI placeholderAPI;
+    public CachedProfiles cachedProfiles;
 
     @Override
     public void onEnable() {
@@ -39,7 +42,10 @@ public final class MelonStats extends JavaPlugin {
         startSavingTask();
         getVaultAPI().runSetup();
         getPlaceholderAPI().setupPapi();
+        cachedProfiles = new CachedProfiles(this);
         getCommand("stats").setExecutor(new StatsCommand());
+        getCommand("test").setExecutor(new testCommand());
+
         // Plugin startup logic
 
     }
@@ -54,6 +60,7 @@ public final class MelonStats extends JavaPlugin {
     public PlaceholderAPI getPlaceholderAPI() { return placeholderAPI; }
 
     public SQLSetterGetter getSQLManager() { return sqlSetterGetter; }
+    public CachedProfiles getCachedProfiles() { return cachedProfiles; }
 
     public void SQLSetup() {
         host = getInstance().getConfig().getString("DATABASE." + "HOST");
@@ -70,7 +77,6 @@ public final class MelonStats extends JavaPlugin {
                 }
                 Class.forName("com.mysql.jdbc.Driver");
                 setConnection(DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?user=" + username + "&password="+ password));
-                //setConnection(DriverManager.getConnection("jdbc:mysql://u15_BgW6sTcHBH:ksqu@heB6gUDV3sQ^^cgfqlp@127.0.0.1:3306/s15_melonstats"));
                 log("MySQL Connected successfully.");
 
             }
@@ -100,5 +106,11 @@ public final class MelonStats extends JavaPlugin {
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> PlayerData.getAllPlayerData().forEach((uuid, playerData) -> getSQLManager().setDeaths(uuid, playerData.getDeaths())), 20L * 60L * 5L, 20L * 60L * 5L);
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> PlayerData.getAllPlayerData().forEach((uuid, playerData) -> getSQLManager().setStreak(uuid, playerData.getStreak())), 20L * 60L * 5L, 20L * 60L * 5L);
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> PlayerData.getAllPlayerData().forEach((uuid, playerData) -> getSQLManager().setHighestStreak(uuid, playerData.getHighestStreak())), 20L * 60L * 5L, 20L * 60L * 5L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                getCachedProfiles().updateLeaderboards();
+            }
+        }, 0L, 20 * 60 * 10L);
     }
 }
