@@ -2,13 +2,12 @@ package org.melonmc.melonstats;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.melonmc.melonstats.api.PlaceholderAPI;
 import org.melonmc.melonstats.api.VaultAPI;
 import org.melonmc.melonstats.commands.StatsCommand;
 import org.melonmc.melonstats.commands.testCommand;
-import org.melonmc.melonstats.leaderboard.CachedProfiles;
+import org.melonmc.melonstats.leaderboard.LeaderboardManager;
 import org.melonmc.melonstats.misc.Listeners;
 import org.melonmc.melonstats.sql.PlayerData;
 import org.melonmc.melonstats.sql.SQLListeners;
@@ -17,6 +16,7 @@ import org.melonmc.melonstats.sql.SQLSetterGetter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public final class MelonStats extends JavaPlugin {
     private static MelonStats instance;
@@ -26,7 +26,7 @@ public final class MelonStats extends JavaPlugin {
     public SQLSetterGetter sqlSetterGetter;
     public VaultAPI vaultAPI;
     public PlaceholderAPI placeholderAPI;
-    public CachedProfiles cachedProfiles;
+    public LeaderboardManager leaderboard;
 
     @Override
     public void onEnable() {
@@ -42,7 +42,7 @@ public final class MelonStats extends JavaPlugin {
         startSavingTask();
         getVaultAPI().runSetup();
         getPlaceholderAPI().setupPapi();
-        cachedProfiles = new CachedProfiles(this);
+        leaderboard = new LeaderboardManager(this);
         getCommand("stats").setExecutor(new StatsCommand());
         getCommand("test").setExecutor(new testCommand());
 
@@ -60,7 +60,7 @@ public final class MelonStats extends JavaPlugin {
     public PlaceholderAPI getPlaceholderAPI() { return placeholderAPI; }
 
     public SQLSetterGetter getSQLManager() { return sqlSetterGetter; }
-    public CachedProfiles getCachedProfiles() { return cachedProfiles; }
+    public LeaderboardManager getLeaderboard() { return leaderboard; }
 
     public void SQLSetup() {
         host = getInstance().getConfig().getString("DATABASE." + "HOST");
@@ -109,7 +109,7 @@ public final class MelonStats extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
-                getCachedProfiles().updateLeaderboards();
+                getLeaderboard().updateLeaderboards();
             }
         }, 0L, 20 * 60 * 10L);
     }
