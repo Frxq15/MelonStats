@@ -71,7 +71,7 @@ public class SQLSetterGetter {
     public void createTable(String table) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin.getInstance(), () -> {
             try {
-                PreparedStatement statement = plugin.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `" + table + "` (uuid VARCHAR(36) PRIMARY KEY, player VARCHAR(16), kills INT(11), deaths VARCHAR(36), streak INT(11), highest_streak INT(11));");
+                PreparedStatement statement = plugin.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `" + table + "` (uuid VARCHAR(36) PRIMARY KEY, player VARCHAR(16), kills INT(11), deaths INT(11), streak INT(11), highest_streak INT(11));");
                 statement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -216,6 +216,36 @@ public class SQLSetterGetter {
             LinkedHashMap<String, Integer> players = new LinkedHashMap<>();
             while (results != null && results.next()) {
                 players.put(results.getString("player"), results.getInt("kills"));
+            }
+            return players;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public LinkedHashMap<String, Integer> getTopHighestStreak() {
+        try {
+            PreparedStatement statement = plugin.getConnection().prepareStatement
+                    ("SELECT player, highest_streak FROM " + plugin.table + " GROUP BY player ORDER BY `HIGHEST_STREAK` DESC LIMIT 10000");
+            ResultSet results = statement.executeQuery();
+            LinkedHashMap<String, Integer> players = new LinkedHashMap<>();
+            while (results != null && results.next()) {
+                players.put(results.getString("player"), results.getInt("highest_streak"));
+            }
+            return players;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public LinkedHashMap<String, Integer> getTopDeaths() {
+        try {
+            PreparedStatement statement = plugin.getConnection().prepareStatement
+                    ("SELECT player, deaths FROM " + plugin.table + " GROUP BY player ORDER BY `DEATHS` DESC LIMIT 10000");
+            ResultSet results = statement.executeQuery();
+            LinkedHashMap<String, Integer> players = new LinkedHashMap<>();
+            while (results != null && results.next()) {
+                players.put(results.getString("player"), results.getInt("deaths"));
             }
             return players;
         } catch (SQLException e) {

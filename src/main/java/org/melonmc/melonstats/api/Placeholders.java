@@ -49,6 +49,9 @@ public class Placeholders extends PlaceholderExpansion {
 
             case "kdr":
                 DecimalFormat df = new DecimalFormat("#.##");
+                if(playerData.getKDR() < 0.1) {
+                    return String.valueOf(0);
+                }
                 return df.format(playerData.getKDR())+"";
 
             case "streak":
@@ -59,6 +62,12 @@ public class Placeholders extends PlaceholderExpansion {
 
             case "leaderboard_kills_position":
                 return String.valueOf(plugin.getLeaderboard().getKillsPositionByName(player.getName()));
+
+            case "leaderboard_deaths_position":
+                return String.valueOf(plugin.getLeaderboard().getDeathsPositionByName(player.getName()));
+
+            case "leaderboard_higheststreak_position":
+                return String.valueOf(plugin.getLeaderboard().getHighestStreakPositionByName(player.getName()));
         }
         return null;
     }

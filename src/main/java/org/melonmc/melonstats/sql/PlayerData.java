@@ -25,7 +25,14 @@ public class PlayerData {
     public int getDeaths() { return deaths; }
     public int getStreak() { return streak; }
     public int getHighestStreak() { return highest_streak; }
-    public double getKDR() { return (double)kills/(double)deaths; }
+    public double getKDR() {
+        if(getDeaths() == 0) {
+            return (double) kills;
+        }
+        if(getKills() == 0) {
+            return 0;
+        }
+        return (double)kills/(double)deaths; }
 
     public void setKills(int kills) {
         this.kills = kills;

@@ -10,12 +10,12 @@ import org.melonmc.melonstats.MelonStats;
 public class testCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        Bukkit.broadcastMessage("top kills");
         MelonStats.getInstance().getLeaderboard().displayKills();
-        Bukkit.broadcastMessage("num 3");
-        MelonStats.getInstance().getLeaderboard().displayKillsByPosition(3);
-        Bukkit.broadcastMessage(MelonStats.getInstance().getLeaderboard().getNameByKillsPosition(3));
-        Bukkit.broadcastMessage(MelonStats.getInstance().getLeaderboard().getKillsByPosition(3)+"");
-        Bukkit.broadcastMessage("my position: #"+MelonStats.getInstance().getLeaderboard().getKillsPositionByName("cxrtwright"));
+        Bukkit.broadcastMessage("top deaths");
+        MelonStats.getInstance().getLeaderboard().displayDeaths();
+        Bukkit.broadcastMessage("highest streak");
+        MelonStats.getInstance().getLeaderboard().displayHighestStreak();
         return true;
     }
 }
