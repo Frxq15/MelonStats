@@ -52,5 +52,6 @@ public class VaultAPI {
         }
         setupPermissions();
         setupChat();
+        MelonStats.getInstance().log("Hooked into VaultAPI successfully");
     }
 }

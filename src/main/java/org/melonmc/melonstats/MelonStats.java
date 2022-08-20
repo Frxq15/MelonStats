@@ -77,7 +77,7 @@ public final class MelonStats extends JavaPlugin {
                 }
                 Class.forName("com.mysql.jdbc.Driver");
                 setConnection(DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?user=" + username + "&password="+ password));
-                log("MySQL Connected successfully.");
+                log("MySQL connected successfully.");
 
             }
 
@@ -102,6 +102,7 @@ public final class MelonStats extends JavaPlugin {
         return ChatColor.translateAlternateColorCodes('&', input);
     }
     public void startSavingTask() {
+        MelonStats.getInstance().log("Started savingTask successfully");
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> PlayerData.getAllPlayerData().forEach((uuid, playerData) -> getSQLManager().setKills(uuid, playerData.getKills())), 20L * 60L * 5L, 20L * 60L * 5L);
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> PlayerData.getAllPlayerData().forEach((uuid, playerData) -> getSQLManager().setDeaths(uuid, playerData.getDeaths())), 20L * 60L * 5L, 20L * 60L * 5L);
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> PlayerData.getAllPlayerData().forEach((uuid, playerData) -> getSQLManager().setStreak(uuid, playerData.getStreak())), 20L * 60L * 5L, 20L * 60L * 5L);

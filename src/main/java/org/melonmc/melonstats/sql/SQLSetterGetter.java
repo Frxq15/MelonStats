@@ -211,7 +211,7 @@ public class SQLSetterGetter {
     public LinkedHashMap<String, Integer> getTopKills() {
         try {
             PreparedStatement statement = plugin.getConnection().prepareStatement
-                    ("SELECT player, kills FROM " + plugin.table + " GROUP BY player ORDER BY `KILLS` DESC LIMIT 10");
+                    ("SELECT player, kills FROM " + plugin.table + " GROUP BY player ORDER BY `KILLS` DESC LIMIT 10000");
             ResultSet results = statement.executeQuery();
             LinkedHashMap<String, Integer> players = new LinkedHashMap<>();
             while (results != null && results.next()) {

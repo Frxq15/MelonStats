@@ -13,6 +13,9 @@ public class testCommand implements CommandExecutor {
         MelonStats.getInstance().getLeaderboard().displayKills();
         Bukkit.broadcastMessage("num 3");
         MelonStats.getInstance().getLeaderboard().displayKillsByPosition(3);
+        Bukkit.broadcastMessage(MelonStats.getInstance().getLeaderboard().getNameByKillsPosition(3));
+        Bukkit.broadcastMessage(MelonStats.getInstance().getLeaderboard().getKillsByPosition(3)+"");
+        Bukkit.broadcastMessage("my position: #"+MelonStats.getInstance().getLeaderboard().getKillsPositionByName("cxrtwright"));
         return true;
     }
 }
