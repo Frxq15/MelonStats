@@ -56,6 +56,9 @@ public class Placeholders extends PlaceholderExpansion {
 
             case "highest_streak":
                 return String.valueOf(playerData.getHighestStreak());
+
+            case "leaderboard_kills_position":
+                return String.valueOf(plugin.getLeaderboard().getKillsPositionByName(player.getName()));
         }
         return null;
     }
