@@ -5,8 +5,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.melonmc.melonstats.api.PlaceholderAPI;
 import org.melonmc.melonstats.api.VaultAPI;
-import org.melonmc.melonstats.commands.StatsCommand;
-import org.melonmc.melonstats.commands.testCommand;
+import org.melonmc.melonstats.command.StatsCommand;
+import org.melonmc.melonstats.command.testCommand;
+import org.melonmc.melonstats.command.topKillsCommand;
 import org.melonmc.melonstats.leaderboard.LeaderboardManager;
 import org.melonmc.melonstats.misc.Listeners;
 import org.melonmc.melonstats.sql.PlayerData;
@@ -16,7 +17,6 @@ import org.melonmc.melonstats.sql.SQLSetterGetter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.UUID;
 
 public final class MelonStats extends JavaPlugin {
     private static MelonStats instance;
@@ -45,6 +45,7 @@ public final class MelonStats extends JavaPlugin {
         leaderboard = new LeaderboardManager(this);
         getCommand("stats").setExecutor(new StatsCommand());
         getCommand("test").setExecutor(new testCommand());
+        getCommand("topkills").setExecutor(new topKillsCommand());
 
         // Plugin startup logic
 
@@ -93,7 +94,7 @@ public final class MelonStats extends JavaPlugin {
         this.connection = connection;
     }
     public void log(String input) {
-        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN+"[MelonMC] "+input);
+        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN+"[MelonStats] "+input);
     }
     public static String formatMsg(String input) {
         return ChatColor.translateAlternateColorCodes('&', getInstance().getConfig().getString(input));

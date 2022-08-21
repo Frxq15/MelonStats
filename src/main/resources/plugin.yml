@@ -11,3 +11,6 @@ commands:
     aliases: [s, playerstats]
   test:
     usage: /test
+  topkills:
+    usage: /topkills
+    aliases: [highestkills]

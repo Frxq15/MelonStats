@@ -1,4 +1,4 @@
-package org.melonmc.melonstats.commands;
+package org.melonmc.melonstats.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
