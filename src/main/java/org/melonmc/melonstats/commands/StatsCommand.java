@@ -29,7 +29,11 @@ public class StatsCommand implements CommandExecutor {
             MelonStats.getInstance().getConfig().getStringList("STATS_MESSAGE").forEach(line -> {
                 line = line.replace("%player%", p.getName()).replace("%kills%", playerData.getKills()+"")
                         .replace("%deaths%", playerData.getDeaths()+"").replace("%currentks%", playerData.getStreak()+"")
-                        .replace("%kdr%", df.format(playerData.getKDR())+"").replace("%highestks%", playerData.getHighestStreak()+"");
+                        .replace("%kdr%", df.format(playerData.getKDR())+"")
+                        .replace("%highestks%", playerData.getHighestStreak()+"")
+                        .replace("%kills_position%", plugin.getLeaderboard().getKillsPositionByName(p.getName())+"")
+                        .replace("%deaths_position%", plugin.getLeaderboard().getDeathsPositionByName(p.getName())+"")
+                        .replace("%highest_streak_position%", plugin.getLeaderboard().getHighestStreakPositionByName(p.getName())+"");
                 p.sendMessage(MelonStats.colourize(line));
             });
             return true;
