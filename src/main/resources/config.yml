@@ -10,17 +10,26 @@ DATABASE:
 MIN_KILL_REWARD: 10
 MAX_KILL_REWARD: 25
 
+ALLOWED_RESET_PLAYERS:
+  - "JustGaming"
+  - "cxrtwright"
+  - "boooooby"
+RESET_ANSWER_NEEDED: "&7Please rerun the command with &a/resetstats <confirm|deny>"
+RESET_CONFIRM_FAILED: "&cYou failed to confirm the resetstats command."
+RESET_DENIED: "&cYou have exited the data reset process."
+RESET_CONFIRMED: "&cData reset confirmed, the plugin will now reset all player data."
+
 PLAYER_NOT_FOUND: "&cThe player you specified could not be found."
 NO_PERMISSION: "&cYou dont have permission to perform this command."
 STATS_MESSAGE:
   - "&7&m----------------------"
   - "&fShowing stats for &a%player%&f:"
-  - "&7Kills: &a%kills% &f(Pos. #%kills_position%"
-  - "&7Deaths: &a%deaths% &f(Pos. #%deaths_position%"
+  - "&7Kills: &a%kills% &f(Pos. #%kills_position%)"
+  - "&7Deaths: &a%deaths% &f(Pos. #%deaths_position%)"
   - "&7KDR: &a%kdr%"
   - ""
   - "&7Current KS: &a%currentks%"
-  - "&7Highest KS: &a%highestks% &f(Pos. #%highest_streak_position%"
+  - "&7Highest KS: &a%highestks% &f(Pos. #%highest_streak_position%)"
   - "&7&m----------------------"
 RECEIVED_MONEY: "&7[&aMelonMC&7] &7You received &a$%amount% &7for killing &a%player%&7."
 DEATH_MESSAGE: "&7[&aMelonMC&7] &a%player% &7was killed by &a%killer%&7."
@@ -39,3 +48,78 @@ TOP_KILLS:
   - " &a&l#9 &7%topkills_name_9%: &a%topkills_kills_9% Kills"
   - " &a&l#10 &7%topkills_name_10%: &a%topkills_kills_10% Kills"
   - "&7&m----------------------"
+KILLSTREAKS_HEADER:
+  - "&7&m----------------------"
+  - "&a&lCurrent Killstreaks"
+KILLSTREAKS_FORMAT: "&a%player_name% &f- &a%streak%"
+KILLSTREAKS_FOOTER:
+  - "&7&m----------------------"
+NO_KILLSTREAKS_FOUND: "&7No killstreaks found for online players."
+
+GUI:
+  LEADERBOARD:
+    ROWS: 3
+    TITLE: "&aStats Leaderboards"
+    FILLER_ITEM: "STAINED_GLASS_PANE" #set to "NONE" if you don't want a filler item
+    FILLER_ITEM_DATA: 15
+    ITEMS:
+      TOP_KILLS:
+        SLOT: 11
+        MATERIAL: "DIAMOND_SWORD"
+        AMOUNT: 1
+        GLOW: false
+        NAME: "&a&nKills Leaderboard"
+        LORE:
+          - ""
+          - " &6&l#1 &7%topkills_name_1% &f- &a%topkills_kills_1%"
+          - " &7&l#2 &7%topkills_name_2% &f- &a%topkills_kills_2%"
+          - " &e&l#3 &7%topkills_name_3% &f- &a%topkills_kills_3%"
+          - " &a#4 &7%topkills_name_4% &f- &a%topkills_kills_4%"
+          - " &a#5 &7%topkills_name_5% &f- &a%topkills_kills_5%"
+          - " &a#6 &7%topkills_name_6% &f- &a%topkills_kills_6%"
+          - " &a#7 &7%topkills_name_7% &f- &a%topkills_kills_7%"
+          - " &a#8 &7%topkills_name_8% &f- &a%topkills_kills_8%"
+          - " &a#9 &7%topkills_name_9% &f- &a%topkills_kills_9%"
+          - " &a#10 &7%topkills_name_10% &f- &a%topkills_kills_10%"
+          - ""
+          - "&7&o (( This shows the players with the &f&ohighest kills &7&o))"
+      TOP_HIGHEST_STREAK:
+        SLOT: 13
+        MATERIAL: "DOUBLE_PLANT"
+        AMOUNT: 1
+        GLOW: false
+        NAME: "&a&nHighest Killstreak Leaderboard"
+        LORE:
+          - ""
+          - " &6&l#1 &7%higheststreak_name_1% &f- &a%higheststreak_streak_1%"
+          - " &7&l#2 &7%higheststreak_name_2% &f- &a%higheststreak_streak_2%"
+          - " &e&l#3 &7%higheststreak_name_3% &f- &a%higheststreak_streak_3%"
+          - " &a#4 &7%higheststreak_name_4% &f- &a%higheststreak_streak_4%"
+          - " &a#5 &7%higheststreak_name_5% &f- &a%higheststreak_streak_5%"
+          - " &a#6 &7%higheststreak_name_6% &f- &a%higheststreak_streak_6%"
+          - " &a#7 &7%higheststreak_name_7% &f- &a%higheststreak_streak_7%"
+          - " &a#8 &7%higheststreak_name_8% &f- &a%higheststreak_streak_8%"
+          - " &a#9 &7%higheststreak_name_9% &f- &a%higheststreak_streak_9%"
+          - " &a#10 &7%higheststreak_name_10% &f- &a%higheststreak_streak_10%"
+          - ""
+          - "&7&o (( This shows the players with the &f&ohighest higheststreak &7&o))"
+      TOP_DEATHS:
+        SLOT: 15
+        MATERIAL: "ANVIL"
+        AMOUNT: 1
+        GLOW: false
+        NAME: "&a&nDeaths Leaderboard"
+        LORE:
+          - ""
+          - " &6&l#1 &7%topdeaths_name_1% &f- &a%topdeaths_deaths_1%"
+          - " &7&l#2 &7%topdeaths_name_2% &f- &a%topdeaths_deaths_2%"
+          - " &e&l#3 &7%topdeaths_name_3% &f- &a%topdeaths_deaths_3%"
+          - " &a#4 &7%topdeaths_name_4% &f- &a%topdeaths_deaths_4%"
+          - " &a#5 &7%topdeaths_name_5% &f- &a%topdeaths_deaths_5%"
+          - " &a#6 &7%topdeaths_name_6% &f- &a%topdeaths_deaths_6%"
+          - " &a#7 &7%topdeaths_name_7% &f- &a%topdeaths_deaths_7%"
+          - " &a#8 &7%topdeaths_name_8% &f- &a%topdeaths_deaths_8%"
+          - " &a#9 &7%topdeaths_name_9% &f- &a%topdeaths_deaths_9%"
+          - " &a#10 &7%topdeaths_name_10% &f- &a%topdeaths_deaths_10%"
+          - ""
+          - "&7&o (( This shows the players with the &f&ohighest deaths &7&o))"

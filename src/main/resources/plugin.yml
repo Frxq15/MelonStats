@@ -9,8 +9,15 @@ commands:
   stats:
     usage: /stats <player>
     aliases: [s, playerstats]
-  test:
-    usage: /test
+  leaderboard:
+    usage: /leaderboard
+    aliases: [topstats, leaderboards, lb]
   topkills:
     usage: /topkills
     aliases: [highestkills]
+  killstreaks:
+    usage: /killstreaks
+    aliases: [ks]
+  resetstats:
+    usage: /resetstats
+    aliases: [rs]

@@ -5,9 +5,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.melonmc.melonstats.api.PlaceholderAPI;
 import org.melonmc.melonstats.api.VaultAPI;
-import org.melonmc.melonstats.command.StatsCommand;
-import org.melonmc.melonstats.command.testCommand;
-import org.melonmc.melonstats.command.topKillsCommand;
+import org.melonmc.melonstats.command.*;
+import org.melonmc.melonstats.gui.GUIListeners;
 import org.melonmc.melonstats.leaderboard.LeaderboardManager;
 import org.melonmc.melonstats.misc.Listeners;
 import org.melonmc.melonstats.sql.PlayerData;
@@ -17,6 +16,8 @@ import org.melonmc.melonstats.sql.SQLSetterGetter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class MelonStats extends JavaPlugin {
     private static MelonStats instance;
@@ -36,6 +37,8 @@ public final class MelonStats extends JavaPlugin {
         placeholderAPI = new PlaceholderAPI();
         Bukkit.getPluginManager().registerEvents(new SQLListeners(this), this);
         Bukkit.getPluginManager().registerEvents(new Listeners(this), this);
+        Bukkit.getPluginManager().registerEvents(new GUIListeners(), this);
+        Bukkit.getPluginManager().registerEvents(new resetstatsCommand(), this);
         saveDefaultConfig();
         SQLSetup();
         getSQLManager().createTable(table);
@@ -44,8 +47,10 @@ public final class MelonStats extends JavaPlugin {
         getPlaceholderAPI().setupPapi();
         leaderboard = new LeaderboardManager(this);
         getCommand("stats").setExecutor(new StatsCommand());
-        getCommand("test").setExecutor(new testCommand());
+        getCommand("leaderboard").setExecutor(new leaderboardCommand());
         getCommand("topkills").setExecutor(new topKillsCommand());
+        getCommand("killstreaks").setExecutor(new killstreaksCommand());
+        getCommand("resetstats").setExecutor(new resetstatsCommand());
 
         // Plugin startup logic
 
@@ -101,6 +106,13 @@ public final class MelonStats extends JavaPlugin {
     }
     public static String colourize(String input) {
         return ChatColor.translateAlternateColorCodes('&', input);
+    }
+    public static List<String> colourize(List<String> input) {
+        List<String> newList = new ArrayList<>();
+        for(String entry : input) {
+            newList.add(colourize(entry));
+        }
+        return newList;
     }
     public void startSavingTask() {
         MelonStats.getInstance().log("Started savingTask successfully");

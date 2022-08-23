@@ -261,4 +261,11 @@ public class SQLSetterGetter {
             e.printStackTrace();
         }
     }
+    public void resetData() {
+        try {
+            plugin.getConnection().prepareStatement("TRUNCATE TABLE " + plugin.table).executeUpdate();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
