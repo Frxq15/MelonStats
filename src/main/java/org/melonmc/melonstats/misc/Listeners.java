@@ -31,7 +31,7 @@ public class Listeners implements Listener {
             if(e.getEntity().getKiller() != null) {
                 if(e.getEntity().getKiller() instanceof Player) {
                     Player p = e.getEntity().getKiller();
-                    giveMoney(p);
+                    giveMoney(p, e.getEntity());
                 }
             }
             return;
@@ -40,7 +40,7 @@ public class Listeners implements Listener {
             return;
         }
         Player p = e.getEntity().getKiller();
-        giveMoney(p);
+        giveMoney(p, e.getEntity());
     }
     @EventHandler
     public void deathMessage(PlayerDeathEvent e) {
@@ -60,12 +60,12 @@ public class Listeners implements Listener {
         }
         Bukkit.broadcastMessage(MelonStats.formatMsg("DEATH_MESSAGE").replace("%player%", e.getEntity().getName()).replace("%killer%", p.getName()));
     }
-    public void giveMoney(Player p) {
+    public void giveMoney(Player p, Player killed) {
         int min = plugin.getConfig().getInt("MIN_KILL_REWARD");
         int max = plugin.getConfig().getInt("MAX_KILL_REWARD");
         Random rand = new Random();
         int amount = rand.nextInt(max - min + 1) + min;
         MelonStats.getInstance().getVaultAPI().getEconomy().depositPlayer(p, amount);
-        p.sendMessage(MelonStats.formatMsg("RECEIVED_MONEY").replace("%amount%", amount+"").replace("%player%", p.getName()));
+        p.sendMessage(MelonStats.formatMsg("RECEIVED_MONEY").replace("%amount%", amount+"").replace("%player%", killed.getName()));
     }
 }
