@@ -50,10 +50,15 @@ public class StatsCommand implements CommandExecutor {
             }
             DecimalFormat df = new DecimalFormat("#.##");
             PlayerData playerData = PlayerData.getPlayerData(plugin, Bukkit.getPlayer(target).getUniqueId());
+            Player p2 = Bukkit.getPlayer(target);
             MelonStats.getInstance().getConfig().getStringList("STATS_MESSAGE").forEach(line -> {
-                line = line.replace("%player%", Bukkit.getPlayer(target).getName()).replace("%kills%", playerData.getKills()+"")
+                line = line.replace("%player%", p2.getName()).replace("%kills%", playerData.getKills()+"")
                         .replace("%deaths%", playerData.getDeaths()+"").replace("%currentks%", playerData.getStreak()+"")
-                        .replace("%kdr%", df.format(playerData.getKDR())+"").replace("%highestks%", playerData.getHighestStreak()+"");
+                        .replace("%kdr%", df.format(playerData.getKDR())+"")
+                        .replace("%highestks%", playerData.getHighestStreak()+"")
+                        .replace("%kills_position%", plugin.getLeaderboard().getKillsPositionByName(p2.getName())+"")
+                        .replace("%deaths_position%", plugin.getLeaderboard().getDeathsPositionByName(p2.getName())+"")
+                        .replace("%highest_streak_position%", plugin.getLeaderboard().getHighestStreakPositionByName(p2.getName())+"");
                 p.sendMessage(MelonStats.colourize(line));
             });
             return true;

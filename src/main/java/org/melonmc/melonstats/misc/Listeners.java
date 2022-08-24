@@ -25,21 +25,29 @@ public class Listeners implements Listener {
     @EventHandler
     public void giveMoney(PlayerDeathEvent e) {
         if(e.getEntity().getLastDamageCause().getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+            if(e.getEntity().getKiller() != null) {
+                if(e.getEntity().getKiller() instanceof Player) {
+                    Player p = e.getEntity().getKiller();
+                    giveMoney(p);
+                }
+            }
             return;
         }
-        Player p = e.getEntity().getKiller();
         if (e.getEntityType() != EntityType.PLAYER) {
             return;
         }
-        int min = plugin.getConfig().getInt("MIN_KILL_REWARD");
-        int max = plugin.getConfig().getInt("MAX_KILL_REWARD");
-        Random rand = new Random();
-        int amount = rand.nextInt(max - min + 1) + min;
-        MelonStats.getInstance().getVaultAPI().getEconomy().depositPlayer(p, amount);
-        p.sendMessage(MelonStats.formatMsg("RECEIVED_MONEY").replace("%amount%", amount+"").replace("%player%", e.getEntity().getName()));
+        if(e.getEntity().getName().equalsIgnoreCase(e.getEntity().getKiller().getName())) {
+            return;
+        }
+        Player p = e.getEntity().getKiller();
+        giveMoney(p);
     }
     @EventHandler
     public void deathMessage(PlayerDeathEvent e) {
+        if(e.getEntity().getKiller() == null) {
+            Bukkit.broadcastMessage(MelonStats.formatMsg("DEATH_MESSAGE_2").replace("%player%", e.getEntity().getName()));
+            return;
+        }
         if(!(e.getEntity().getKiller() instanceof Player)) {
             return;
         }
@@ -49,14 +57,12 @@ public class Listeners implements Listener {
         }
         Bukkit.broadcastMessage(MelonStats.formatMsg("DEATH_MESSAGE").replace("%player%", e.getEntity().getName()).replace("%killer%", p.getName()));
     }
-    @EventHandler
-    public void deathMessag2e(PlayerDeathEvent e) {
-        if(!(e.getEntity().getKiller() instanceof Player)) {
-            if (e.getEntityType() == EntityType.PLAYER) {
-                Player p = e.getEntity().getKiller();
-                Bukkit.broadcastMessage(MelonStats.formatMsg("DEATH_MESSAGE")
-                        .replace("%player%", e.getEntity().getName()).replace("%killer%", p.getName()));
-            }
-        }
+    public void giveMoney(Player p) {
+        int min = plugin.getConfig().getInt("MIN_KILL_REWARD");
+        int max = plugin.getConfig().getInt("MAX_KILL_REWARD");
+        Random rand = new Random();
+        int amount = rand.nextInt(max - min + 1) + min;
+        MelonStats.getInstance().getVaultAPI().getEconomy().depositPlayer(p, amount);
+        p.sendMessage(MelonStats.formatMsg("RECEIVED_MONEY").replace("%amount%", amount+"").replace("%player%", p.getName()));
     }
 }

@@ -1,6 +1,7 @@
 package org.melonmc.melonstats.sql;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,7 +47,22 @@ public class SQLListeners implements Listener {
     }
     @EventHandler
     public void addKill(PlayerDeathEvent e) {
-        if(e.getEntity().getLastDamageCause().getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+        if(e.getEntity().getLastDamageCause().getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK){
+
+            if(e.getEntity().getKiller() != null) {
+                Player p = e.getEntity().getKiller();
+                PlayerData playerData = PlayerData.getPlayerData(plugin, p.getUniqueId());
+                if(e.getEntityType() != EntityType.PLAYER) {
+                    return;
+                }
+                playerData.addToStreak();
+                playerData.addKill();
+
+                if(playerData.getStreak() >= playerData.getHighestStreak()) {
+                    playerData.setHighestStreak(playerData.getStreak());
+                }
+            }
+
             Player p2 = e.getEntity();
             PlayerData playerData1 = PlayerData.getPlayerData(plugin, p2.getUniqueId());
             playerData1.addDeath();
