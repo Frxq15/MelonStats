@@ -24,6 +24,9 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void giveMoney1(PlayerDeathEvent e) {
+        if(e.getEntity().getKiller() == null) {
+            return;
+        }
         if(e.getEntity().getName().equalsIgnoreCase(e.getEntity().getKiller().getName())) {
             return;
         }
