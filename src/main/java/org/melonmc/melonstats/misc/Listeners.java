@@ -23,7 +23,10 @@ public class Listeners implements Listener {
     }
 
     @EventHandler
-    public void giveMoney(PlayerDeathEvent e) {
+    public void giveMoney1(PlayerDeathEvent e) {
+        if(e.getEntity().getName().equalsIgnoreCase(e.getEntity().getKiller().getName())) {
+            return;
+        }
         if(e.getEntity().getLastDamageCause().getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
             if(e.getEntity().getKiller() != null) {
                 if(e.getEntity().getKiller() instanceof Player) {
@@ -36,9 +39,6 @@ public class Listeners implements Listener {
         if (e.getEntityType() != EntityType.PLAYER) {
             return;
         }
-        if(e.getEntity().getName().equalsIgnoreCase(e.getEntity().getKiller().getName())) {
-            return;
-        }
         Player p = e.getEntity().getKiller();
         giveMoney(p);
     }
@@ -49,6 +49,9 @@ public class Listeners implements Listener {
             return;
         }
         if(!(e.getEntity().getKiller() instanceof Player)) {
+            return;
+        }
+        if(e.getEntity().getName().equalsIgnoreCase(e.getEntity().getKiller().getName())) {
             return;
         }
         Player p = e.getEntity().getKiller();

@@ -48,37 +48,39 @@ public class SQLListeners implements Listener {
     @EventHandler
     public void addKill(PlayerDeathEvent e) {
         if(e.getEntity().getLastDamageCause().getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK){
-
             if(e.getEntity().getKiller() != null) {
                 Player p = e.getEntity().getKiller();
                 PlayerData playerData = PlayerData.getPlayerData(plugin, p.getUniqueId());
                 if(e.getEntityType() != EntityType.PLAYER) {
                     return;
                 }
+                if(!e.getEntity().getName().equalsIgnoreCase(e.getEntity().getKiller().getName())) {
                 playerData.addToStreak();
                 playerData.addKill();
 
                 if(playerData.getStreak() >= playerData.getHighestStreak()) {
                     playerData.setHighestStreak(playerData.getStreak());
-                }
-            }
-
+                    }
+                } //end of not killed by self
+            } //end of killer not null
             Player p2 = e.getEntity();
             PlayerData playerData1 = PlayerData.getPlayerData(plugin, p2.getUniqueId());
             playerData1.addDeath();
             playerData1.setStreak(0);
             return;
-        }
+        } //end of entity attack
         Player p = e.getEntity().getKiller();
         PlayerData playerData = PlayerData.getPlayerData(plugin, p.getUniqueId());
         if(e.getEntityType() != EntityType.PLAYER) {
             return;
         }
-        playerData.addToStreak();
-        playerData.addKill();
+        if(!e.getEntity().getName().equalsIgnoreCase(e.getEntity().getKiller().getName())) {
+            playerData.addToStreak();
+            playerData.addKill();
 
-        if(playerData.getStreak() >= playerData.getHighestStreak()) {
-            playerData.setHighestStreak(playerData.getStreak());
+            if(playerData.getStreak() >= playerData.getHighestStreak()) {
+                playerData.setHighestStreak(playerData.getStreak());
+            }
         }
 
         Player p2 = e.getEntity();
