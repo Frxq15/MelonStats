@@ -1,10 +1,10 @@
 DATABASE:
-  TABLE: "melonstats"
-  HOST: "178.33.74.13"
+  TABLE: "table"
+  HOST: "ip"
   PORT: 3306
-  DATABASE: "s15_melonstats"
-  USERNAME: "u15_BgW6sTcHBH"
-  PASSWORD: "ksqu@heB6gUDV3sQ^^cgfqlp"
+  DATABASE: "database"
+  USERNAME: "username"
+  PASSWORD: "password"
 
 #VAULT ECO//: given upon killing another player
 MIN_KILL_REWARD: 10
